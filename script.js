@@ -55,4 +55,26 @@ const renderer = new THREE.WebGLRenderer({
 });
 
 renderer.setSize(sizes.width, sizes.height)
-renderer.render(scene, camera)
+
+
+//Time
+let time = Date.now();
+
+//Animations
+const loop = () => {
+
+    const currentTime = Date.now();
+    const deltaTime = currentTime - time;
+    time = currentTime;
+
+    //Update Objects
+    cube1.rotation.y += 0.003 * deltaTime
+
+    //Render
+    renderer.render(scene, camera)
+    
+    //Request next frame
+    window.requestAnimationFrame(loop)
+}
+
+loop();
