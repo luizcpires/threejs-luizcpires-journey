@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 const cursor = {
     x: 0,
@@ -61,6 +62,11 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
 camera.position.set(1, 1, 6);
 scene.add(camera)
 
+//Controls
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
+//controls.target.y = 1;
+//controls.update()
 
 //Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -91,10 +97,13 @@ const loop = () => {
    //Update Camera
    //camera.position.x = cursor.x * 8
    //camera.position.y = cursor.y * 8
-   camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3
+
+   /*camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3
    camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3
    camera.position.y = cursor.y * 5
-   camera.lookAt(group.position);
+   camera.lookAt(group.position);*/
+
+   controls.update()
 
     //Render
     renderer.render(scene, camera)
