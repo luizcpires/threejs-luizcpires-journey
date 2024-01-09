@@ -1,6 +1,16 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
 
+const cursor = {
+    x: 0,
+    y: 0
+}
+//Cursor
+window.addEventListener('mousemove', function(event){
+   cursor.x = (event.clientX / sizes.width - 0.5)
+   cursor.y = - (event.clientY / sizes.height - 0.5)
+})
+
 //Canvas
 const canvas = document.querySelector('canvas.webgl')
 
@@ -32,7 +42,7 @@ const cube3 = new THREE.Mesh(
 cube3.position.x = 2
 group.add(cube3);
 
-group.position.y = 3
+//group.position.y = 3
 
 //Axes helper
 const axesHelper = new THREE.AxesHelper(3);
@@ -45,9 +55,9 @@ const sizes = {
 }
 
 //Camera
-//const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
-const aspectRatio = sizes.width / sizes.height;
-const camera = new THREE.OrthographicCamera(-3 * aspectRatio, 3* aspectRatio, 3 , -3 , 0.1, 2000)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
+//const aspectRatio = sizes.width / sizes.height;
+//const camera = new THREE.OrthographicCamera(-3 * aspectRatio, 3* aspectRatio, 3 , -3 , 0.1, 2000)
 camera.position.set(1, 1, 6);
 scene.add(camera)
 
@@ -60,22 +70,31 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 
 //Clock
-//const clock = new THREE.Clock()
+const clock = new THREE.Clock()
 
-gsap.to(cube1.position, {duration: 1, delay: 1, x: 2})
-gsap.to(cube1.position, {duration: 1, delay: 2, x: 0})
+//gsap.to(cube1.position, {duration: 1, delay: 1, x: 2})
+//gsap.to(cube1.position, {duration: 1, delay: 2, x: 0})
 //Animations
 const loop = () => {
 
     
     //Clock
-    //const elapsedTime = clock.getElapsedTime()
-    //console.log(elapsedTime);
+    const elapsedTime = clock.getElapsedTime()
+    //const elapsedTime = Date.now()
+    console.log(elapsedTime);
 
     //Update Objects
     //cube1.rotation.y = elapsedTime
     //cube1.position.y = Math.sin(elapsedTime)
    // cube1.position.x = Math.cos(elapsedTime)
+
+   //Update Camera
+   //camera.position.x = cursor.x * 8
+   //camera.position.y = cursor.y * 8
+   camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3
+   camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3
+   camera.position.y = cursor.y * 5
+   camera.lookAt(group.position);
 
     //Render
     renderer.render(scene, camera)
