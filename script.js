@@ -2,6 +2,11 @@ import './src/style.css'
 import * as THREE from 'three'
 import gsap from 'gsap'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import GUI from 'lil-gui'
+
+/******** Debug UI *********/
+const gui = new GUI();
+
 
 const cursor = {
     x: 0,
@@ -36,6 +41,7 @@ const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3)
 customGeometry.setAttribute('position', positionsAttribute)
 
 
+
 /******** Material ********/
 const wireframeMaterial = new THREE.MeshBasicMaterial({
     color: 0xff0000,
@@ -51,6 +57,7 @@ const cube1 = new THREE.Mesh(
     customGeometry,
     wireframeMaterial
 )
+gui.add(cube1.position, "y").min(-3).max(3).step(0.01).name("Elevation")
 group.add(cube1);
 
 const cube2 = new THREE.Mesh(
