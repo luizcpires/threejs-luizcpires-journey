@@ -7,27 +7,33 @@ const cursor = {
     x: 0,
     y: 0
 }
-//Cursor
+/*********Cursor**********/
 window.addEventListener('mousemove', function(event){
    cursor.x = (event.clientX / sizes.width - 0.5)
    cursor.y = - (event.clientY / sizes.height - 0.5)
 })
 
 
-//Canvas
+/*********Canvas**********/
 const canvas = document.querySelector('canvas.webgl')
 
-//Scene
+/*********Scene**********/
 const scene = new THREE.Scene()
 
-//Objects
+/******** Material ********/
+const wireframeMaterial = new THREE.MeshBasicMaterial({
+    color: 0xff0000,
+    wireframe: true
+})
+
+/*********Objects**********/
 
 const group = new THREE.Group()
 scene.add(group);
 
 const cube1 = new THREE.Mesh(
-    new THREE.BoxGeometry(1,1,1),
-    new THREE.MeshBasicMaterial({color: 0xff0000})
+    new THREE.BoxGeometry(1,1,1, 2, 2, 2),
+    wireframeMaterial
 )
 group.add(cube1);
 
@@ -57,7 +63,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-//Resize
+/*********Resize**********/
 window.addEventListener('resize', (event) => {
     
     //Update Sizes
@@ -74,7 +80,7 @@ window.addEventListener('resize', (event) => {
 
 })
 
-//FullScreen 
+/*********Full screen**********/
 window.addEventListener('dblclick', (event) => {
     
     const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
@@ -98,20 +104,20 @@ window.addEventListener('dblclick', (event) => {
     }
 })
 
-//Camera
+/*********Camera**********/
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
 //const aspectRatio = sizes.width / sizes.height;
 //const camera = new THREE.OrthographicCamera(-3 * aspectRatio, 3* aspectRatio, 3 , -3 , 0.1, 2000)
 camera.position.set(1, 1, 6);
 scene.add(camera)
 
-//Controls
+/*********Controls**********/
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
 //controls.target.y = 1;
 //controls.update()
 
-//Renderer
+/*********Renderer**********/
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
 });
@@ -119,12 +125,14 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-//Clock
+/*********Clock**********/
 const clock = new THREE.Clock()
 
 //gsap.to(cube1.position, {duration: 1, delay: 1, x: 2})
 //gsap.to(cube1.position, {duration: 1, delay: 2, x: 0})
 //Animations
+
+/*********Loop**********/
 const loop = () => {
 
     
