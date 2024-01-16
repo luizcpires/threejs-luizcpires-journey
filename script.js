@@ -1,3 +1,4 @@
+import './src/style.css'
 import * as THREE from 'three'
 import gsap from 'gsap'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -11,6 +12,7 @@ window.addEventListener('mousemove', function(event){
    cursor.x = (event.clientX / sizes.width - 0.5)
    cursor.y = - (event.clientY / sizes.height - 0.5)
 })
+
 
 //Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -51,9 +53,50 @@ scene.add(axesHelper);
 
 //Sizes
 const sizes = {
-    width: 800,
-    height: 600
+    width: window.innerWidth,
+    height: window.innerHeight
 }
+
+//Resize
+window.addEventListener('resize', (event) => {
+    
+    //Update Sizes
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
+
+    //Update Camera
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
+
+    //Update Renderer
+    renderer.setSize(sizes.width, sizes.height)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+})
+
+//FullScreen 
+window.addEventListener('dblclick', (event) => {
+    
+    const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
+    
+    if(!fullscreenElement){
+       
+        if(canvas.requestFullscreen){
+            canvas.requestFullscreen()
+        }else if (canvas.webkitRequestFullscreen){
+            canvas.webkitRequestFullscreen()
+        }
+        
+        
+    }else{
+        if(document.exitFullscreen){
+            document.exitFullscreen()
+        }else if(document.webkitExitFullscreen){
+            document.webkitExitFullscreen()
+        }
+        
+    }
+})
 
 //Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
@@ -74,6 +117,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 
 renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 //Clock
 const clock = new THREE.Clock()
@@ -87,7 +131,7 @@ const loop = () => {
     //Clock
     const elapsedTime = clock.getElapsedTime()
     //const elapsedTime = Date.now()
-    console.log(elapsedTime);
+    
 
     //Update Objects
     //cube1.rotation.y = elapsedTime
