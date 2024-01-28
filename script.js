@@ -6,6 +6,8 @@ import GUI from 'lil-gui'
 
 /******** Debug UI *********/
 const gui = new GUI();
+const debugObject = {};
+debugObject.color = 0xff0000
 
 
 const cursor = {
@@ -43,8 +45,8 @@ customGeometry.setAttribute('position', positionsAttribute)
 
 
 /******** Material ********/
-const wireframeMaterial = new THREE.MeshBasicMaterial({
-    color: 0xff0000,
+const cubeMaterial = new THREE.MeshBasicMaterial({
+    color: debugObject.color,
     wireframe: true
 })
 
@@ -55,9 +57,29 @@ scene.add(group);
 
 const cube1 = new THREE.Mesh(
     customGeometry,
-    wireframeMaterial
+    cubeMaterial
 )
-gui.add(cube1.position, "y").min(-3).max(3).step(0.01).name("Elevation")
+
+/**** GUI CUBE1 POSITION y ****/
+gui
+    .add(cube1.position, "y")
+    .min(-3)
+    .max(3)
+    .step(0.01)
+    .name("Elevation")
+
+gui
+    .add(cube1, 'visible')
+
+gui
+    .add(cubeMaterial, 'wireframe')
+
+gui
+    .addColor(debugObject, 'color')
+    .onChange((value) => {
+        cubeMaterial.color.set(debugObject.color)
+    })
+
 group.add(cube1);
 
 const cube2 = new THREE.Mesh(
