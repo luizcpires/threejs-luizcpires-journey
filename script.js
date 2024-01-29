@@ -5,9 +5,24 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import GUI from 'lil-gui'
 
 /******** Debug UI *********/
-const gui = new GUI();
+const gui = new GUI({
+    width: 320,
+    title: "Nice debug UI",
+    closeFolders: false
+});
+//gui.close();
+gui.hide();
+
+window.addEventListener('keydown', (event) => {
+    if(event.key == 'h'){
+        //gui.show()
+        gui.show(gui._hidden)
+    }
+})
+
 const debugObject = {};
 debugObject.color = 0xff0000
+debugObject.subdivision = 2;
 
 
 const cursor = {
@@ -55,38 +70,68 @@ const cubeMaterial = new THREE.MeshBasicMaterial({
 const group = new THREE.Group()
 scene.add(group);
 
+
+/****** Cube 1 *******/
 const cube1 = new THREE.Mesh(
     customGeometry,
     cubeMaterial
 )
 
+const cube1TweakFolder = gui.addFolder("Cube 1");
+const cube2TweakFolder = gui.addFolder("Cube 2");
+
 /**** GUI CUBE1 POSITION y ****/
-gui
+cube1TweakFolder
     .add(cube1.position, "y")
     .min(-3)
     .max(3)
     .step(0.01)
     .name("Elevation")
 
-gui
+cube1TweakFolder
     .add(cube1, 'visible')
 
-gui
+cube1TweakFolder
     .add(cubeMaterial, 'wireframe')
 
-gui
+cube1TweakFolder
     .addColor(debugObject, 'color')
     .onChange((value) => {
         cubeMaterial.color.set(debugObject.color)
     })
 
+/** GUI Animation SPIN **/
+debugObject.spin = () => {
+    
+    gsap.to(cube1.rotation, {y: cube1.rotation.y + Math.PI * 2})
+}
+
+cube1TweakFolder.add(debugObject, 'spin')
+
 group.add(cube1);
 
+/****** Cube 2 *******/
 const cube2 = new THREE.Mesh(
     new THREE.BoxGeometry(1,1,1),
-    new THREE.MeshBasicMaterial({color: 0x00ff00})
+    new THREE.MeshBasicMaterial({color: 0x00ff00, wireframe: true})
 )
 cube2.position.x = -2
+
+cube2TweakFolder
+.add(debugObject, 'subdivision')
+.min(1)
+.max(20)
+.step(1)
+.onFinishChange(()=>{
+
+    cube2.geometry.dispose()
+    cube2.geometry = new THREE.BoxGeometry(
+        1,1,1,
+        debugObject.subdivision, debugObject.subdivision, debugObject.subdivision
+    )
+})
+
+
 group.add(cube2);
 
 const cube3 = new THREE.Mesh(
