@@ -4,6 +4,8 @@ import gsap from 'gsap'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import GUI from 'lil-gui'
 
+
+
 /******** Debug UI *********/
 const gui = new GUI({
     width: 320,
@@ -11,7 +13,9 @@ const gui = new GUI({
     closeFolders: false
 });
 //gui.close();
-gui.hide();
+//gui.hide();
+
+/***Debug UI TOGGLE KEYDOWN: H ***/
 
 window.addEventListener('keydown', (event) => {
     if(event.key == 'h'){
@@ -20,6 +24,7 @@ window.addEventListener('keydown', (event) => {
     }
 })
 
+/*** Debug Object ***/
 const debugObject = {};
 debugObject.color = 0xff0000
 debugObject.subdivision = 2;
@@ -131,8 +136,9 @@ cube2TweakFolder
     )
 })
 
-
 group.add(cube2);
+
+/****** Cube 3 *******/
 
 const cube3 = new THREE.Mesh(
     new THREE.BoxGeometry(1,1,1),
@@ -140,6 +146,27 @@ const cube3 = new THREE.Mesh(
 )
 cube3.position.x = 2
 group.add(cube3);
+
+/****** Cube 4 *******/
+/**** Textures *****/
+const image = new Image()
+const texture = new THREE.Texture(image)
+//texture.colorSpace = THREE.SRGBColorSpace
+image.onload = () =>
+{
+    
+    texture.needsUpdate = true
+}
+
+image.src = './src/Door_Wood_001_basecolor.jpg'
+
+const cube4 = new THREE.Mesh(
+    new THREE.BoxGeometry(1,1,1),
+    new THREE.MeshBasicMaterial({map:texture})   
+)
+cube4.position.x = 2;
+cube4.position.y = 1.5;
+group.add(cube4);
 
 //group.position.y = 3
 
