@@ -147,22 +147,39 @@ const cube3 = new THREE.Mesh(
 cube3.position.x = 2
 group.add(cube3);
 
-/****** Cube 4 *******/
+
 /**** Textures *****/
-const image = new Image()
-const texture = new THREE.Texture(image)
+const loadingManager = new THREE.LoadingManager()
+const textureLoader = new THREE.TextureLoader(loadingManager)
+const colorTexture = textureLoader.load('./src/Door_Wood_001_basecolor.jpg')
+const alphaTexture = textureLoader.load('./src/Door_Wood_001_opacity.jpg')
+const heightTexture = textureLoader.load('./src/Door_Wood_001_height.jpg')
+const normalTexture = textureLoader.load('./src/Door_Wood_001_normal.jpg')
+const ambientOcclusionTexture = textureLoader.load('./src/Door_Wood_001_ambientOcclusion.jpg')
+const metalnessTexture = textureLoader.load('./src/Door_Wood_001_metallic.jpg')
+const roughnessTexture = textureLoader.load('./src/Door_Wood_001_roughness.jpg')
 //texture.colorSpace = THREE.SRGBColorSpace
-image.onload = () =>
-{
-    
-    texture.needsUpdate = true
+
+loadingManager.onStart = () =>{
+    console.log('onStart')
 }
 
-image.src = './src/Door_Wood_001_basecolor.jpg'
+loadingManager.onLoad = () =>{
+    console.log('onLoaded')
+}
 
+loadingManager.onProgress = () =>{
+    console.log('onProgress')
+}
+
+loadingManager.onError = () =>{
+    console.log('onError')
+}
+
+/****** Cube 4 *******/
 const cube4 = new THREE.Mesh(
     new THREE.BoxGeometry(1,1,1),
-    new THREE.MeshBasicMaterial({map:texture})   
+    new THREE.MeshBasicMaterial({map:colorTexture})   
 )
 cube4.position.x = 2;
 cube4.position.y = 1.5;
