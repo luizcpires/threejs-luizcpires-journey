@@ -160,21 +160,6 @@ const metalnessTexture = textureLoader.load('./src/Door_Wood_001_metallic.jpg')
 const roughnessTexture = textureLoader.load('./src/Door_Wood_001_roughness.jpg')
 //texture.colorSpace = THREE.SRGBColorSpace
 
-loadingManager.onStart = () =>{
-    console.log('onStart')
-}
-
-loadingManager.onLoad = () =>{
-    console.log('onLoaded')
-}
-
-loadingManager.onProgress = () =>{
-    console.log('onProgress')
-}
-
-loadingManager.onError = () =>{
-    console.log('onError')
-}
 
 /****** Cube 4 *******/
 const cube4 = new THREE.Mesh(
