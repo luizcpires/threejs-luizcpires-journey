@@ -17,9 +17,9 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
-//Scene
-const axesHelper = new THREE.AxesHelper()
-scene.add(axesHelper)
+// //Scene
+// const axesHelper = new THREE.AxesHelper()
+// scene.add(axesHelper)
 
 /**
  * Textures
@@ -34,7 +34,7 @@ fontLoader.load('././static/fonts/helvetiker_regular.typeface.json', (font) => {
         font: font,
         size: 0.5,
         height: 0.2,
-        curveSegments: 6,
+        curveSegments: 24,
         bevelEnabled: true,
         bevelThickness: 0.03,
         bevelSize: 0.02,
@@ -42,10 +42,54 @@ fontLoader.load('././static/fonts/helvetiker_regular.typeface.json', (font) => {
         bebelSegments: 5
     })
 
-    const textMaterial = new THREE.MeshBasicMaterial()
-    textMaterial.wireframe = true
-    const textMesh = new THREE.Mesh(textGeometry, textMaterial)
+    // textGeometry.computeBoundingBox()
+    // textGeometry.translate(
+    //     - (textGeometry.boundingBox.max.x - 0.02)* 0.5,
+    //     - (textGeometry.boundingBox.max.y - 0.02) * 0.5,
+    //     - (textGeometry.boundingBox.max.z - 0.03) * 0.5,
+
+    // )
+
+    textGeometry.center()
+
+    /********* Texture *********/
+    const textureLoader = new THREE.TextureLoader()
+    const matcapTexture = textureLoader.load('././static/textures/matcaps/8.png')
+    matcapTexture.colorSpace = THREE.SRGBColorSpace
+
+    const material = new THREE.MeshMatcapMaterial()
+    material.matcap = matcapTexture
+    material.wireframe = false
+
+    const textMesh = new THREE.Mesh(textGeometry, material)
     scene.add(textMesh)
+
+
+    console.time('donuts')
+
+    /********** Donuts  ***********/
+    const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
+  
+    for(let i = 0; i < 300; i++){
+        const donut = new THREE.Mesh(donutGeometry, material)
+
+        donut.position.x = (Math.random() - 0.5) * 10
+        donut.position.y = (Math.random() - 0.5) * 10
+        donut.position.z = (Math.random() - 0.5) * 10
+
+        donut.rotation.x = Math.random() * Math.PI
+        donut.rotation.y = Math.random() * Math.PI
+        donut.rotation.z = Math.random() * Math.PI
+
+        const scale = Math.random()
+        donut.scale.x = scale
+        donut.scale.y = scale
+        donut.scale.z = scale
+
+        scene.add(donut)
+    }
+
+    console.timeEnd('donuts')
 
 })
 
