@@ -28,9 +28,9 @@ const textureLoader = new THREE.TextureLoader()
 
 /****** Fonts *******/
 const fontLoader = new FontLoader()
-fontLoader.load('././static/fonts/helvetiker_regular.typeface.json', (font) => {
+fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
     
-    const textGeometry = new TextGeometry('Luiz Pires', {
+    const textGeometry = new TextGeometry('Luiz Pires \n Developer \n Artist', {
         font: font,
         size: 0.5,
         height: 0.2,
@@ -54,7 +54,7 @@ fontLoader.load('././static/fonts/helvetiker_regular.typeface.json', (font) => {
 
     /********* Texture *********/
     const textureLoader = new THREE.TextureLoader()
-    const matcapTexture = textureLoader.load('././static/textures/matcaps/8.png')
+    const matcapTexture = textureLoader.load('/textures/matcaps/8.png')
     matcapTexture.colorSpace = THREE.SRGBColorSpace
 
     const material = new THREE.MeshMatcapMaterial()
@@ -73,9 +73,9 @@ fontLoader.load('././static/fonts/helvetiker_regular.typeface.json', (font) => {
     for(let i = 0; i < 300; i++){
         const donut = new THREE.Mesh(donutGeometry, material)
 
-        donut.position.x = (Math.random() - 0.5) * 10
-        donut.position.y = (Math.random() - 0.5) * 10
-        donut.position.z = (Math.random() - 0.5) * 10
+        donut.position.x = (Math.random()) * 10
+        donut.position.y = (Math.random()) * 10
+        donut.position.z = (Math.random()) * 10
 
         donut.rotation.x = Math.random() * Math.PI
         donut.rotation.y = Math.random() * Math.PI
